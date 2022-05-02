@@ -1,0 +1,39 @@
+<div class="w-50 m-auto">
+  <h2>&#128372; Ingresar &#128372;</h2>
+
+  <div class="row my-5 border rounded p-5">
+    <div class="col col-4">Email:</div>
+    <div class="col col-8">
+      <input type="text" class="form-control" id="email" />
+    </div>
+
+    <div class="col col-4">Contraseña:</div>
+    <div class="col col-8">
+      <input type="password" class="form-control" id="password" />
+    </div>
+
+    <div class="col-12 mt-2">
+      <button onclick="verificacion()" class="bg-light m-auto btn">
+        Ingresar
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const verificacion = async () => {
+    const email = document.getElementById('email').value
+    const password = document.getElementById('password').value
+    const payload = { email, password }
+    try {
+      const { data: token } = await axios.post('/verify', payload)
+      alert(`¡Autentificación y autorización exitosa!`)
+      window.location.href = `/Evidencias?token=${token}`
+    }
+    catch ({ response }) {
+      const { data } = response
+      const { error } = data
+      alert(error)
+    }
+  }
+</script>

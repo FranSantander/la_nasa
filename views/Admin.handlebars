@@ -1,0 +1,44 @@
+<h2 class="mb-2">Usuarios registrados</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Correo</th>
+      <th scope="col">Validado</th>
+    </tr>
+  </thead>
+  <tbody id="cuerpo">
+
+    {{#each usuarios}}
+    <tr>
+      <td>{{@index}}</td>
+      <td>{{this.nombre}}</td>
+      <td>{{this.email}}</td>
+      <td>
+      <input type="checkbox" {{#if this.auth}} checked {{/if}} onclick="changeStatus({{this.id}}, this)">
+      </td>
+    </tr>
+
+    {{/each}}
+  </tbody>
+</table>
+
+<script>
+  const changeStatus = async (id, e) => {
+    const auth = e.checked
+    try { 
+    await axios.put("/usuarios", {
+      id,
+      auth
+      })
+
+    alert(auth ? "Usuario habilitado para subir fotos" : "Usuario deshabilitado para subir fotos")
+    }     
+    catch ({ response }) { 
+      const { data } = response 
+      const { error } = data 
+      alert(error)
+    } 
+  }
+  </script>
